@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>HAG Records</title>
+	</head>
+	<body>
+		<div id="header">
+			<h3>Welcome to HAG Records!</h3>
+		</div>
+		<div id="info">
+			Here you can query our database:<br/>	
+		</div>
+		<div id="searchheader">
+			Enter your search terms:
+		</div>	
+		<div id="fields">
+			<form name="search" method="POST" action="search.php">	
+				<input type="radio" name="usertype" value="generaluser">General User<br>
+				<input type="radio" name="usertype" value="artist">Artist<br>
+				<input type="radio" name="usertype" value="producer">Producer<br>
+				<input type="radio" name="usertype" value="executive">Executive<br>
+				Artist Name<br>
+				<input type="text" name="artistname"><br>
+				Album Name<br>
+				<input type="text" name="albumname"><br>
+				Song Name<br>
+				<input type="text" name="songname"><br>
+				Release Year<br>
+				<input type="text" name="releaseyear"><br>
+				Employee Name<br>
+				<input type="text" name="employeename"><br>
+				<input type="submit" value="Search"></input>
+			</form>	
+		</div>
+		<a href="results.html">results</a>
+		<a href="info.html">info</a>		
+	
+	</body>
+</html>
+
