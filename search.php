@@ -141,7 +141,8 @@ elseif ($selected_radio == "artist") {
 //query for all the data allowed
 //all data allowed, so join all tables?
 
-	else if(all empty){
+	else if(!empty($artist_name) AND !empty($album_name) AND !empty(song_name)
+	 AND !empty($year) AND !empty($employee_name)){
 	
 	$sql = "SELECT *
 			FROM Act, Albums, Artist, Discography, Employee, Executives, Producers, Songs
