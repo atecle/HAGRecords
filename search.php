@@ -52,6 +52,19 @@ elseif ($selected_radio == "artist") {
 } elseif($selected_radio == "producer") {
 
     echo "producer";
+	//see part 1 for query restrictions
+	$artist_name = $_POST['artistname'];
+    $album_name = $_POST['albumname'];
+    $song_name = $_POST['songname'];
+    $year = $_POST['releaseyear'];
+	$employee_name = $_POST['employeename'];
+	
+	$artist_name_length = strlen(trim($artist_name));
+	$album_name_name_length = strlen(trim($artist_name));
+	$song_name_length = strlen(trim($artist_name));
+	$year_length = strlen(trim($artist_name));
+	$employee_name_length = strlen(trim($artist_name));
+	
 } elseif($selected_radio == "executive") {
 
     $artist_name = $_POST['artistname'];  
