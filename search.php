@@ -140,7 +140,8 @@ elseif ($selected_radio == "artist") {
 			AND Discography.DiscographyID = Albums.DiscographyID
 			AND Discography.DiscographyID = Song.DiscographyID
 			AND Albums.AlbumName = Song.AlbumName";
-	
+ 
+    $sql = "SELECT * FROM ARTIST";    
 	$result = mysql_query($sql);
 		
 		if($result == false){

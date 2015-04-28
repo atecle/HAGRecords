@@ -43,61 +43,66 @@
                     </div>
 
                     <div class="inner cover">
-                        <h3 class="cover-heading">Cover your page.</h1>
+                        <h3 class="cover-heading">What type of user are you?</h3>
 
                         <div id="fields">
                             <div id="radio-buttons">
                                 <form name="search" method="POST" action="search.php">  
-                                    <input type="radio" name="usertype" value="generaluser"><p>General User</p>
-                                    <input type="radio" name="usertype" value="artist"><p>Artist</p>
-                                    <input type="radio" name="usertype" value="producer"><p>Producer</p>
-                                    <input type="radio" name="usertype" value="executive"><p>Executive</p>
-                                    <div id="text input" >
-                                        Artist Name<br>
-                                        <input type="text" name="artistname"><br>
-                                        Album Name<br>
-                                        <input type="text" name="albumname"><br>
-                                        Song Name<br>
-                                        <input type="text" name="songname"><br>
-                                        Release Year<br>
-                                        <input type="text" name="releaseyear"><br>
-                                        Employee Name<br>
-                                        <input type="text" name="employeename"><br>
-                                        <input type="submit" value="Search"></input>
-                                    </div>
-                                </form> 
-                            </div>
-
-
-                            <!-- <p class="lead">Cover is a one-page template for building simple
-                            and beautiful home pages. Download, edit the text, and add your own 
-                            fullscreen background photo to make it your own.</p>
-                            <p class="lead">
-                            <a href="#" class="btn btn-lg btn-default">Learn more</a>
-                            </p>-->
+                                    <input id="userbtn" type="radio" name="usertype" value="generaluser">
+                                    <label for="userbtn"> General User </label>
+                                    <input id="artistbtn" type="radio" name="usertype" value="artist">
+                                    <label for="artistbtn"> Artist </label>
+                                    <input id="prodbtn" type="radio" name="usertype" value="producer">
+                                    <label for="prodbtn"> Producer </label>
+                                    <input id="execbtn" type="radio" name="usertype" value="executive">
+                                    <label for="execbtn"> Executive </label>
+                                </div>
+                                <div id="text input" >
+                                    Artist Name<br>
+                                    <input type="text" name="artistname"><br>
+                                    Album Name<br>
+                                    <input type="text" name="albumname"><br>
+                                    Song Name<br>
+                                    <input type="text" name="songname"><br>
+                                    Release Year<br>
+                                    <input type="text" name="releaseyear"><br>
+                                    Employee Name<br>
+                                    <input type="text" name="employeename"><br>
+                                    <input type="submit" value="Search"></input>
+                                </div>
+                            </form> 
                         </div>
 
-                        <div class="mastfoot">
-                            <div class="inner">
-                                <!--  <p>Cover template for 
-                                <a href="http://getbootstrap.com">Bootstrap</a>, 
-                                by <a href="https://twitter.com/mdo">@mdo</a>.</p>-->
-                            </div>
-                        </div>
 
+                        <!-- <p class="lead">Cover is a one-page template for building simple
+                        and beautiful home pages. Download, edit the text, and add your own 
+                        fullscreen background photo to make it your own.</p>
+                        <p class="lead">
+                        <a href="#" class="btn btn-lg btn-default">Learn more</a>
+                        </p>-->
+                    </div>
+
+                    <div class="mastfoot">
+                        <div class="inner">
+                            <!--  <p>Cover template for 
+                            <a href="http://getbootstrap.com">Bootstrap</a>, 
+                            by <a href="https://twitter.com/mdo">@mdo</a>.</p>-->
+                        </div>
                     </div>
 
                 </div>
 
             </div>
 
-            <!-- Bootstrap core JavaScript
-            ================================================== -->
-            <!-- Placed at the end of the document so the pages load faster -->
-            <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-            <script src="js/bootstrap.min.js"></script>
-            <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-            <script src="js/ie10-viewport-bug-workaround.js"></script>
-        </body>
-    </html>
+        </div>
+
+        <!-- Bootstrap core JavaScript
+        ================================================== -->
+        <!-- Placed at the end of the document so the pages load faster -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+        <script src="js/ie10-viewport-bug-workaround.js"></script>
+    </body>
+</html>
 
