@@ -118,6 +118,14 @@ textarea {
   font: inherit;
   color: inherit;
 }
+textarea: focus, input:focus {
+	color: #000000;
+}
+
+input, select, textarea {
+	color: #000000;
+}
+
 button {
   overflow: visible;
 }
