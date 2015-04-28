@@ -24,6 +24,9 @@ a:hover {
        *  * Base structure
        *   */
 
+	   
+	   
+	   
 html,
 body {
     height: 100%;
@@ -66,7 +69,12 @@ body {
     margin-top: 10px;
     margin-bottom: 10px;
 }
-
+textarea:focus, input:focus {
+	color: black;
+}
+input, select, textarea{
+	color: black;
+}
 .masthead-nav > li {
     display: inline-block;
   }
