@@ -31,6 +31,17 @@ if ($selected_radio ==  "generaluser") {
     {
 
         $sql = "SELECT ArtistName FROM Artist WHERE ArtistName=\"$artist_name\"";   
+        $result = mysql_query($sql);                                                                     
+
+        if ($result == false) {                                                                          
+            die(mysql_error());                                                                          
+        }                                                                                                
+
+        while ($row = mysql_fetch_assoc($result))                                                        
+        {                                                                                                
+            echo $row['ArtistName'];                                                                     
+        }  
+
     }
 
     elseif (!empty($album_name) 
@@ -39,32 +50,63 @@ if ($selected_radio ==  "generaluser") {
         && empty($year))
     {
         $sql = "SELECT AlbumName FROM Albums WHERE AlbumName=\"$album_name\"";
+        $result = mysql_query($sql);                                                                     
+
+        if ($result == false) {                                                                          
+            die(mysql_error());                                                                          
+        }                                                                                                
+
+        while ($row = mysql_fetch_assoc($result))                                                        
+        {                                                                                                
+            echo $row['AlbumName'];                                                                     
+        }                             
     }
     elseif (!empty($song_name)
-            && empty($artist_name)
-            && empty($song_name)
-            && empty($year))
+        && empty($artist_name)
+        && empty($song_name)
+        && empty($year))
     {
 
         $sql = "SELECT SongName FROM Songs WHERE SongName=\"$song_name\"";
+
+        $result = mysql_query($sql);                                                                     
+
+        if ($result == false) {                                                                          
+            die(mysql_error());                                                                          
+        }                                                                                                
+
+        while ($row = mysql_fetch_assoc($result))                                                        
+        {                                                                                                
+            echo $row['SongName'];                                                                     
+        }                                                                                                
+
     }
-    else {
+    elseif (empty($song_name)
+        && empty($artist_name)
+        && empty($album_name)
+        && empty($year)
+    ){
+        $sql = "SELECT Act.ActName, Albums.AlbumName, Songs.SongName, Albums.Year 
+            FROM Act, Albums, Songs 
+            WHERE Act.Act_DiscographyID = Albums.Albums_DiscographyID
+            AND Albums.Albums_DiscographyID = Songs.Song_DiscographyID";                        
 
-        // dialog that query not supported
-    
+        $result = mysql_query($sql);                                                                     
+
+        if ($result == false) {                                                                          
+            die(mysql_error());                                                                          
+        }                                                                                                
+
+        while ($row = mysql_fetch_assoc($result))                                                        
+        {                                                                                                
+            echo $row['ArtistName'];
+            echo $row['AlbumName'];
+            echo $row['SongName'];
+            echo $row['ReleaseYear'];                                                                     
+        }                                                                                                
+
+
     }
-
-    $result = mysql_query($sql);
-
-    if ($result == false) {
-        die(mysql_error());
-    }
-
-      while ($row = mysql_fetch_assoc($result))
-    {
-        echo $row['ArtistName'];
-    } 
-
 
 }
 elseif ($selected_radio == "artist") {
