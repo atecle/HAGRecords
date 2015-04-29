@@ -78,7 +78,6 @@ elseif ($selected_radio == "artist") {
     $album_name = $_POST['albumname'];
     $song_name = $_POST['songname'];
     $year = $_POST['releaseyear'];
-<<<<<<< HEAD
 	$employee_name = $_POST['employeename'];
 	
 	$artist_name_length = strlen(trim($artist_name));
@@ -149,73 +148,6 @@ elseif ($selected_radio == "artist") {
 		echo $row['Year'];
 	}
 	
-=======
-    $employee_name = $_POST['employeename'];
-
-    $artist_name_length = strlen(trim($artist_name));
-    $album_name_length = strlen(trim($artist_name));
-    $song_name_length = strlen(trim($artist_name));
-    $year_length = strlen(trim($artist_name));
-    $employee_name_length = strlen(trim($artist_name));
-
-    if($artist_name_length != 0){
-        $sql = "SELECT Artist.ArtistName, Act.ActName, Album.AlbumName, Album.Year
-            FROM Artist, Act, Album, Discography
-            WHERE Artist.ArtistName = \"$artist_name%\" 
-            AND Artist.ArtistName = Act.ArtistName
-            AND Act.Act_DiscographyID = Album.Albums_DiscographyID";
-    }
-    else if($album_name_length != 0){
-        $sql = "SELECT Act.ActName, Album.AlbumName, Album.Year
-            FROM Act, Album, Discography
-            WHERE Album.AlbumName = \"$album_name%\" 
-            AND Act.Act_DiscographyID = Album.Albums_DiscographyID";
-    }
-    else if($song_name_length != 0){
-        $sql = "SELECT Song.SongName, Act.ActName, Album.AlbumName, Album.Year
-            FROM Song, Act, Album, Discography
-            WHERE Song.SongName = \"$song_name%\" 
-            AND Song.AlbumName = Album.AlbumName
-            AND Act.Act_DiscographyID = Album.Albums_DiscographyID";
-    }
-    /*else if($year_length != 0){
-        $sql = "SELECT Act.ActName, Album.AlbumName, Album.Year
-                FROM Act, Album, Discography
-                WHERE Album.Year = \"$year\" 
-                AND Act.Act_DiscographyID = Album.Albums_DiscographyID";
-    }
-    else if($employee_name_length != 0){
-        $sql = "SELECT Act.ActName, Album.AlbumName, Album.Year
-                FROM Act, Album, Discography
-                WHERE Album.Year = \"$year\" 
-                AND Act.Act_DiscographyID = Album.Albums_DiscographyID";
-    }*/
-
-    $result = mysql_query($sql);
-
-    if($result == false){
-        die(mysql_error());
-    }
-
-    if($artist_name_length != 0){
-        echo $row['ArtistName'];
-        echo $row['ActName'];
-        echo $row['AlbumName'];
-        echo $row['Year'];		
-    }
-    else if($album_name_length != 0){
-        echo $row['AlbumName'];
-        echo $row['ActName'];
-        echo $row['Year'];	
-    }
-    else if($song_name_length != 0){
-        echo $row['SongName'];
-        echo $row['ActName'];
-        echo $row['AlbumName'];
-        echo $row['Year'];
-    }
-
->>>>>>> d30e76e3807bd416531a810f9f82663058b56bb1
 } elseif($selected_radio == "executive") {
 
     $artist_name = $_POST['artistname'];  
