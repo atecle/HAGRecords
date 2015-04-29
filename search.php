@@ -1,4 +1,5 @@
 <?php
+echo "TEST<br>";
 
 $servername = "cs336-5.cs.rutgers.edu";
 $username = "HAGRecords";
