@@ -1,14 +1,6 @@
 
 <?php
 
-echo "<h3> Search Results </h3>";
-echo "<table style=\"width:100%\">
-    <tr>
-    <th>Artist</th>
-    <th>Album</th>
-    <th>Song</th>
-    <th>Year</th>
-    </tr>";
 $servername = "cs336-5.cs.rutgers.edu";
 $username = "HAGRecords";
 $password = "HAGRecords";
@@ -68,10 +60,10 @@ if ($selected_radio ==  "generaluser") {
         die(mysql_error());
     }
 
-    /*  while ($row = mysql_fetch_assoc($result))
+      while ($row = mysql_fetch_assoc($result))
     {
         echo $row['ArtistName'];
-    }*/ 
+    } 
 
 
 }
