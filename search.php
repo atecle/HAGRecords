@@ -65,23 +65,28 @@ elseif ($selected_radio == "artist") {
 	$year_length = strlen(trim($artist_name));
 	$employee_name_length = strlen(trim($artist_name));
 	
+	if($year_length != 0){
+		echo "A producer user cannot access release year.";		
+		
+	}
+	
 	if($artist_name_length != 0){
 		$sql = "SELECT Artist.ArtistName, Act.ActName, Album.AlbumName, Album.Year
 				FROM Artist, Act, Album, Discography
-				WHERE Artist.ArtistName = \"$artist_name%\" 
+				WHERE Artist.ArtistName = \"$artist_name%\"" 
 				AND Artist.ArtistName = Act.ArtistName
 				AND Act.Act_DiscographyID = Album.Albums_DiscographyID";
 	}
 	else if($album_name_length != 0){
 		$sql = "SELECT Act.ActName, Album.AlbumName, Album.Year
 				FROM Act, Album, Discography
-				WHERE Album.AlbumName = \"$album_name%\" 
+				WHERE Album.AlbumName = \"$album_name%\"" 
 				AND Act.Act_DiscographyID = Album.Albums_DiscographyID";
 	}
 	else if($song_name_length != 0){
 		$sql = "SELECT Song.SongName, Act.ActName, Album.AlbumName, Album.Year
 				FROM Song, Act, Album, Discography
-				WHERE Song.SongName = \"$song_name%\" 
+				WHERE Song.SongName = \"$song_name%\"" 
 				AND Song.AlbumName = Album.AlbumName
 				AND Act.Act_DiscographyID = Album.Albums_DiscographyID";
 	}
