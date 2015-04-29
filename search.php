@@ -1,5 +1,4 @@
 <?php
-echo "TEST<br>";
 
 $servername = "cs336-5.cs.rutgers.edu";
 $username = "HAGRecords";
@@ -8,14 +7,12 @@ $dbname = "RecordLabel";
 
 $conn = mysql_connect($servername, $username, $password);
 
-echo "TEST1<br>";
-
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
-echo "TEST2<br>";
+
 $selected = mysql_select_db($dbname,$conn);
-echo "TEST3<br>";
+
 
 $selected_radio = $_POST['usertype'];
 echo "TEST4<br>";
