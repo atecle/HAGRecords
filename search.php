@@ -1,4 +1,3 @@
-
 <?php
 
 $servername = "cs336-5.cs.rutgers.edu";
@@ -121,7 +120,7 @@ elseif ($selected_radio == "artist") {
     $song_name = $_POST['songname'];
     $year = $_POST['releaseyear'];
 	$employee_name = $_POST['employeename'];
-	
+	//
 	$artist_name_length = strlen(trim($artist_name));
 	$album_name_length = strlen(trim($artist_name));
 	$song_name_length = strlen(trim($artist_name));
@@ -130,28 +129,32 @@ elseif ($selected_radio == "artist") {
 	
 	if($year_length != 0){
 		echo "A producer user cannot access release year.";		
-		
 	}
-	
+	//Act, Albums, Artist, Discography, Employee, Executives, Producers, Songs
 	if($artist_name_length != 0){
-		$sql = "SELECT Artist.ArtistName, Act.ActName, Album.AlbumName, Album.Year
-				FROM Artist, Act, Album, Discography
-				WHERE Artist.ArtistName = \"$artist_name%\"" 
+		$sql = "SELECT Artist.ArtistName, Act.ActName, Albums.AlbumName, Albums.Year
+				FROM Artist, Act, Albums, Discography
+				WHERE Artist.ArtistName = \"$artist_name%\" 
 				AND Artist.ArtistName = Act.ArtistName
-				AND Act.Act_DiscographyID = Album.Albums_DiscographyID";
+				AND Act.Act_DiscographyID = Albums.Albums_DiscographyID";
 	}
 	else if($album_name_length != 0){
-		$sql = "SELECT Act.ActName, Album.AlbumName, Album.Year
-				FROM Act, Album, Discography
-				WHERE Album.AlbumName = \"$album_name%\"" 
-				AND Act.Act_DiscographyID = Album.Albums_DiscographyID";
+		$sql = "SELECT Act.ActName, Albums.AlbumName, Albums.Year
+				FROM Act, Albums, Discography
+				WHERE Albums.AlbumName = \"$album_name%\" 
+				AND Act.Act_DiscographyID = Albums.Albums_DiscographyID";
 	}
 	else if($song_name_length != 0){
-		$sql = "SELECT Song.SongName, Act.ActName, Album.AlbumName, Album.Year
-				FROM Song, Act, Album, Discography
-				WHERE Song.SongName = \"$song_name%\"" 
-				AND Song.AlbumName = Album.AlbumName
-				AND Act.Act_DiscographyID = Album.Albums_DiscographyID";
+		$sql = "SELECT Songs.SongName, Act.ActName, Albums.AlbumName, Albums.Year
+				FROM Songs, Act, Albums, Discography
+				WHERE Songs.SongName = \"$song_name%\" 
+				AND Songs.AlbumName = Albums.AlbumName
+				AND Act.Act_DiscographyID = Albums.Albums_DiscographyID";
+	} else if ($artist_name_length == 0 && $album_name_length == 0 && $song_name_length == 0 && $year_length == 0 && $employee_name_length == 0){
+		$sql = "SELECT Songs.SongName, Act.ActName, Albums.AlbumName, Employee.EmployeeName, 
+				FROM Songs, Act, Albums, Employee, Discography
+				WHERE Songs.AlbumName = Album.AlbumName
+				AND Act.Act_DiscographyID = Albums.Albums_DiscographyID";		
 	}
 	/*else if($year_length != 0){
 		$sql = "SELECT Act.ActName, Album.AlbumName, Album.Year
@@ -171,6 +174,7 @@ elseif ($selected_radio == "artist") {
 	if($result == false){
 		die(mysql_error());
 	}
+
 	
 	if($artist_name_length != 0){
 		echo $row['ArtistName'];
