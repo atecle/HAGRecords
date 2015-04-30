@@ -388,13 +388,15 @@ elseif ($selected_radio == "artist") {
         AND empty($first_name)
         AND empty($contract_years)) {
 
-            $sql = "SELECT Artist.ArtistName, Act.ActName, Albums.AlbumName, 
+            $sql = "SELECT DISTINCT Artist.ArtistName, Act.ActName, Albums.AlbumName, 
                     Song.SongName, Albums.Year, Employee.LastName, 
                     Employee.FirstName, Act.Genre, Artist.ContractYears 
                     FROM Act, Albums, Artist, Discography, Employee, Executives, Producers, Song
-                    WHERE Employee.ExecutiveID = Executives.ExecutiveID
-                    AND Employee.ProducerID = Producers.ProducerID
-                    AND Employee.ArtistID = Artist.ArtistID
+                    WHERE (Employee.ExecutiveID = Executives.ExecutiveID
+                    OR Employee.ProducerID = Producers.ProducerID
+                    OR Employee.ArtistID = Artist.ArtistID
+                    AND (Employee.LastName <> 'Tiffith'
+                    AND Employee.LastName <> 'West'))
                     AND Artist.Artist_ActName = Act.ActName
                     AND Discography.DiscographyID = Act.Act_DiscographyID
                     AND Discography.DiscographyID = Albums.Albums_DiscographyID
