@@ -86,6 +86,10 @@ button[type='submit']
     margin-right: 50px;
 }
 
+td {
+    text-align: left;
+}
+
 #text-input {
     display: inline-block;
     float: left;

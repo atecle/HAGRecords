@@ -38,7 +38,7 @@
 
 <div class="masthead clearfix">
 <div class="inner">
-<h3 class="masthead-brand"><img src="logo.png"/></h3>
+<h3 class="masthead-brand">  <img src="logo.png"/> </h3>
 </div>
 </div>
 
@@ -105,7 +105,7 @@ if ($selected_radio ==  "generaluser") {
             die(mysql_error());                                                                          
         }                                                                                                
         
-        echo "<table style=\"width:100%\">
+        echo "<table class=\"table table-bordered\">
             <tr> <th> Artist Name </th> </tr>";
         while ($row = mysql_fetch_assoc($result))                                                        
         {                                                                                                
@@ -127,7 +127,7 @@ if ($selected_radio ==  "generaluser") {
             die(mysql_error());                                                                          
         }                                                                                                
 
-        echo "<table style=\"width:100%\">
+        echo "<table class=\"table table-bordered\">
             <tr> <th> Album Name </th> </tr>";
         while ($row = mysql_fetch_assoc($result))                                                        
         {                                                                                                
@@ -149,7 +149,7 @@ if ($selected_radio ==  "generaluser") {
             die(mysql_error());                                                                          
         }                                                                                                
 
-        echo "<table style=\"width:100%\">
+        echo "<table class=\"table table-bordered\">
             <tr> <th> Song Name </th> </tr>";
         while ($row = mysql_fetch_assoc($result))                                                        
         {                                                                                                
@@ -173,7 +173,7 @@ if ($selected_radio ==  "generaluser") {
         if ($result == false) {                                                                          
             die(mysql_error());                                                                          
         }                                                                                                
-        echo "<table style=\"width:100%\">
+        echo "<table class=\"table table-bordered\">
             <tr> <th> Artist Name </th>
                 <th> Album Name </th>
                 <th> Song Name </th>
