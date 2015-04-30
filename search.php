@@ -34,7 +34,7 @@ if ($selected_radio ==  "generaluser") {
     
     }       
     
-    eles if(!empty($last_name)){ //last name
+    else if(!empty($last_name)){ //last name
     
     echo "Query not accessible by this user.<br>";
     
@@ -47,7 +47,7 @@ if ($selected_radio ==  "generaluser") {
     }        
    
     $sql = "";
-    else if (!empty($artist_name) 
+    if (!empty($artist_name) 
         && empty($album_name)
         && empty($song_name)
         && empty($year))
@@ -158,20 +158,20 @@ elseif ($selected_radio == "artist") {
 	if($artist_name_length != 0){
 		$sql = "SELECT Artist.ArtistName, Act.ActName, Albums.AlbumName, Albums.Year
 				FROM Artist, Act, Albums, Discography
-				WHERE Artist.ArtistName = \"$artist_name%\" 
+				WHERE Artist.ArtistName = \"$artist_name\" 
 				AND Artist.ArtistName = Act.ArtistName
 				AND Act.Act_DiscographyID = Albums.Albums_DiscographyID";
 	}
 	else if($album_name_length != 0){
 		$sql = "SELECT Act.ActName, Albums.AlbumName, Albums.Year
 				FROM Act, Albums, Discography
-				WHERE Albums.AlbumName = \"$album_name%\" 
+				WHERE Albums.AlbumName = \"$album_name\" 
 				AND Act.Act_DiscographyID = Albums.Albums_DiscographyID";
 	}
 	else if($song_name_length != 0){
 		$sql = "SELECT Songs.SongName, Act.ActName, Albums.AlbumName, Albums.Year
 				FROM Songs, Act, Albums, Discography
-				WHERE Songs.SongName = \"$song_name%\" 
+				WHERE Songs.SongName = \"$song_name\" 
 				AND Songs.AlbumName = Albums.AlbumName
 				AND Act.Act_DiscographyID = Albums.Albums_DiscographyID";
 	} else if ($artist_name_length == 0 && $album_name_length == 0 && $song_name_length == 0 && $year_length == 0 && $employee_name_length == 0){
@@ -294,8 +294,8 @@ elseif ($selected_radio == "artist") {
     //query for all the data allowed
     //all data allowed, so join all tables?
 
-    else if(!empty($artist_name) AND !empty($album_name) AND !empty(song_name)
-        AND !empty($year) AND !empty($employee_name)){
+    else if(!empty($artist_name) AND !empty($album_name) AND !empty($song_name)
+        AND !empty($year) AND !empty($employee_name)) {
 
             $sql = "SELECT *
                 FROM Act, Albums, Artist, Discography, Employee, Executives, Producers, Songs
