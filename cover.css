@@ -81,14 +81,21 @@ input[type='text']
 {
     margin-bottom: 10px;
 }
+button[type='submit']
+{
+    margin-right: 50px;
+}
 
 #text-input {
     display: inline-block;
     float: left;
     clear: left;
-    margin-left: 150px;
+    margin-left: 170px;
     /* width: 250px;*/
     text-align: right;
+}
+#radio-buttons {
+    margin-bottom: 20px;
 }
 
                     .masthead-nav > li {
