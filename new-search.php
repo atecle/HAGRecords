@@ -74,23 +74,24 @@ if ($selected_radio ==  "generaluser") {
 
     if(!empty($first_name)){ //first name
 
-        echo "Query not accessible by this user.<br>";
-
+        echo "<h2> General user cannot query by first name. </h2>";
+        return;
     }       
 
     else if(!empty($last_name)){ //last name
 
-        echo "Query not accessible by this user.<br>";
-
+        echo "<h2> General user cannot query by last name. </h2>";
+        return;
     }        
 
     else if(!empty($genre)){ //genre
 
-        echo "Query not accessible by this user.<br>";
-
+        echo "<h2> General user cannot query by genre. </h2>";
+        return;
     }        
 
     $sql = "";
+
     if (!empty($artist_name) 
         && empty($album_name)
         && empty($song_name)
@@ -103,12 +104,15 @@ if ($selected_radio ==  "generaluser") {
         if ($result == false) {                                                                          
             die(mysql_error());                                                                          
         }                                                                                                
-
+        
+        echo "<table style=\"width:100%\">
+            <tr> <th> Artist Name </th> </tr>";
         while ($row = mysql_fetch_assoc($result))                                                        
         {                                                                                                
-            echo $row['ArtistName'];                                                                     
+            echo "<tr> <td>" . $row['ArtistName'] . "</td> </tr>";                                                                    
         }  
-
+        echo "</table>";
+        return;
     }
 
     else if (!empty($album_name) 
@@ -123,18 +127,21 @@ if ($selected_radio ==  "generaluser") {
             die(mysql_error());                                                                          
         }                                                                                                
 
+        echo "<table style=\"width:100%\">
+            <tr> <th> Album Name </th> </tr>";
         while ($row = mysql_fetch_assoc($result))                                                        
         {                                                                                                
-            echo $row['AlbumName'];                                                                     
-        }                             
+            echo "<tr> <td>" . $row['AlbumName'] . "</td> </tr>";                                                                     
+        }                    
+        echo "</table>";
+        return;        
     }
     else if (!empty($song_name)
         && empty($artist_name)
-        && empty($song_name)
+        && empty($album_name)
         && empty($year))
     {
-
-        $sql = "SELECT SongName FROM Songs WHERE SongName=\"$song_name\"";
+        $sql = "SELECT SongName FROM Song WHERE SongName=\"$song_name\"";
 
         $result = mysql_query($sql);                                                                     
 
@@ -142,37 +149,43 @@ if ($selected_radio ==  "generaluser") {
             die(mysql_error());                                                                          
         }                                                                                                
 
+        echo "<table style=\"width:100%\">
+            <tr> <th> Song Name </th> </tr>";
         while ($row = mysql_fetch_assoc($result))                                                        
         {                                                                                                
-            echo $row['SongName'];                                                                     
+            echo "<tr> <td>" . $row['SongName'] . "</td> </tr>";                                                          
         }                                                                                                
-
+        echo "</table>";
+        return;
     }
     elseif (empty($song_name)
         && empty($artist_name)
         && empty($album_name)
-        && empty($year)
-    ){
-        $sql = "SELECT Act.ActName, Albums.AlbumName, Songs.SongName, Albums.Year 
-            FROM Act, Albums, Songs 
+        && empty($year))
+    {
+        $sql = "SELECT Act.ActName, Albums.AlbumName, Song.SongName, Albums.Year 
+            FROM Act, Albums, Song 
             WHERE Act.Act_DiscographyID = Albums.Albums_DiscographyID
-            AND Albums.Albums_DiscographyID = Songs.Song_DiscographyID";                        
+            AND Albums.Albums_DiscographyID = Song.Song_DiscographyID";                        
 
         $result = mysql_query($sql);                                                                     
 
         if ($result == false) {                                                                          
             die(mysql_error());                                                                          
         }                                                                                                
-
+        echo "<table style=\"width:100%\">
+            <tr> <th> Artist Name </th>
+                <th> Album Name </th>
+                <th> Song Name </th>
+                <th> Release Year </th>
+            </tr>";
         while ($row = mysql_fetch_assoc($result))                                                        
         {                                                                                                
-            echo $row['ArtistName'];
-            echo $row['AlbumName'];
-            echo $row['SongName'];
-            echo $row['ReleaseYear'];                                                                     
+            echo "<tr> <td>" . $row['ActName'] . "</td> <td>" . $row['AlbumName'] . "</td> <td>" 
+                . $row['SongName'] . "</td> <td>" . $row['Year'] . "</td></tr>"; 
         }                                                                                                
-
-
+        echo "</table>";
+        return;
     }
 
 }
