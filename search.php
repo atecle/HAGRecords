@@ -242,10 +242,10 @@ elseif ($selected_radio == "artist") {
         AND empty($contract_years)
         AND empty($genre)){
 
-        $sql = "SELECT Act.ActName, Album.AlbumName, Album.Year
-            FROM Act, Album, Discography
-            WHERE Album.Year = \"$year\" 
-            AND Act.Act_DiscographyID = Album.Albums_DiscographyID";
+        $sql = "SELECT Act.ActName, Albums.AlbumName, Albums.Year
+            FROM Act, Albums, Discography
+            WHERE Albums.Year = \"$year\" 
+            AND Act.Act_DiscographyID = Albums.Albums_DiscographyID";
 
         $result = mysql_query($sql);
 
