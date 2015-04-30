@@ -283,16 +283,26 @@ elseif ($selected_radio == "artist") {
     $song_name = $_POST['songname'];                                                                 
     $year = $_POST['releaseyear']; 
     $contract_years = $_POST['contractyears'];
+    $last_name = $_POST['lastname'];
+    $first_name = $_POST['firstname'];
     $genre = $_POST['genre'];    
 
     //query 1
     //albums released in a certain year
-    if(!empty($year)){
+    if(!empty($year) 
+        AND empty($artist_name)
+        AND empty($act_name)
+        AND empty($album_name)
+        AND empty($song_name)
+        AND empty($contract_years)
+        AND empty($last_name)
+        AND empty($first_name)
+        AND empty($genre)){
 
-        $sql = "SELECT Act.ActName, Album.AlbumName, Album.Year
-            FROM Act, Album, Discography
-            WHERE Album.Year = \"$year\" 
-            AND Act.Act_DiscographyID = Album.Albums_DiscographyID";
+        $sql = "SELECT DISTINCT Act.ActName, Albums.AlbumName, Albums.Year
+            FROM Act, Albums, Discography
+            WHERE Albums.Year = \"$year\" 
+            AND Act.Act_DiscographyID = Albums.Albums_DiscographyID";
 
         $result = mysql_query($sql);
 
@@ -301,7 +311,7 @@ elseif ($selected_radio == "artist") {
         }
 
         while ($row = mysql_fetch_assoc($result)){
-            echo $row['ArtistName'];
+            echo $row['ActName'];
             echo $row['AlbumName'];
             echo $row['Year'];
         }
@@ -309,11 +319,20 @@ elseif ($selected_radio == "artist") {
 
     //query 2
     //artists who have X years or less on their contracts
-    else if(!empty($contract_years)){
+    else if(!empty($contract_years)
+            AND empty($artist_name)
+            AND empty($act_name)
+            AND empty($album_name)
+            AND empty($song_name)
+            AND empty($year)
+            AND empty($last_name)
+            AND empty($first_name)
+            AND empty($genre)){
 
         $sql = "SELECT Artist.ArtistName, Artist.ContractYears
             FROM Artist
-            WHERE Artist.ContractYears <= \"$contract_years\""; 
+            WHERE Artist.ContractYears <= \"$contract_years\"
+            ORDER BY Artist.ContractYears DESC"; 
 
         $result = mysql_query($sql);
 
@@ -330,7 +349,15 @@ elseif ($selected_radio == "artist") {
     //query 3
     //search acts in a certain genre
 
-    else if(!empty($genre)){
+    else if(!empty($genre)
+            AND empty($artist_name)
+            AND empty($act_name)
+            AND empty($album_name)
+            AND empty($song_name)
+            AND empty($contract_years)
+            AND empty($last_name)
+            AND empty($first_name)
+            AND empty($year){
 
         $sql = "SELECT Act.ActName, Act.Genre
             FROM Act
@@ -351,19 +378,28 @@ elseif ($selected_radio == "artist") {
     //query for all the data allowed
     //all data allowed, so join all tables?
 
-    else if(!empty($artist_name) AND !empty($album_name) AND !empty($song_name)
-        AND !empty($year) AND !empty($employee_name)) {
+    else if(empty($artist_name) 
+        AND empty($album_name) 
+        AND empty($song_name)
+        AND empty($year) 
+        AND empty($genre)
+        AND empty($act_name)
+        AND empty($last_name)
+        AND empty($first_name)
+        AND empty($contract_years)) {
 
-            $sql = "SELECT *
-                FROM Act, Albums, Artist, Discography, Employee, Executives, Producers, Songs
-                WHERE Employee.ExecutiveID = Executives.ExecutiveID
-                AND Employee.ProducerID = Producers.ProducerID
-                AND Employee.ArtistID = Artist.ArtistID
-                AND Artist.ActName = Act.ActName
-                AND Discography.DiscographyID = Act.DiscographyID
-                AND Discography.DiscographyID = Albums.DiscographyID
-                AND Discography.DiscographyID = Song.DiscographyID
-                AND Albums.AlbumName = Song.AlbumName";
+            $sql = "SELECT Artist.ArtistName, Act.ActName, Albums.AlbumName, 
+                    Song.SongName, Albums.Year, Employee.LastName, 
+                    Employee.FirstName, Act.Genre, Artist.ContractYears 
+                    FROM Act, Albums, Artist, Discography, Employee, Executives, Producers, Song
+                    WHERE Employee.ExecutiveID = Executives.ExecutiveID
+                    AND Employee.ProducerID = Producers.ProducerID
+                    AND Employee.ArtistID = Artist.ArtistID
+                    AND Artist.Artist_ActName = Act.ActName
+                    AND Discography.DiscographyID = Act.Act_DiscographyID
+                    AND Discography.DiscographyID = Albums.Albums_DiscographyID
+                    AND Discography.DiscographyID = Song.Song_DiscographyID
+                    AND Albums.AlbumName = Song.AlbumName";
 
             $sql = "SELECT * FROM ARTIST";    
             $result = mysql_query($sql);
@@ -373,8 +409,17 @@ elseif ($selected_radio == "artist") {
             }
 
             while ($row = mysql_fetch_assoc($result)){
+                echo $row['artistname'];
                 echo $row['actname'];
+                echo $row['albumname'];
+                echo $row['song_name'];
+                echo $row['year'];
+                echo $row['lastname'];
+                echo $row['firstname'];
                 echo $row['genre'];
+                echo $row['contractyears'];
+                
+
             }
         } 
 
