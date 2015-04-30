@@ -13,17 +13,41 @@ if ($conn->connect_error) {
 
 $selected = mysql_select_db($dbname,$conn);
 
-$selected_radio = $_POST['usertype'];
 
+$selected_radio = $_POST['usertype'];
+echo "TEST4<br>";
 if ($selected_radio ==  "generaluser") {
 
     $artist_name = $_POST['artistname'];
     $album_name = $_POST['albumname'];
     $song_name = $_POST['songname'];
     $year = $_POST['releaseyear'];
-
+     $first_name = $_POST['firstname']; 
+    $last_name = $_POST['lastname']; 
+    $genre = $_POST['genre'];
+    
+    //query for not accessible data
+    
+    if(!empty($first_name)){ //first name
+    
+    echo "Query not accessible by this user.<br>";
+    
+    }       
+    
+    eles if(!empty($last_name)){ //last name
+    
+    echo "Query not accessible by this user.<br>";
+    
+    }        
+    
+    else if(!empty($genre)){ //genre
+    
+    echo "Query not accessible by this user.<br>";
+    
+    }        
+   
     $sql = "";
-    if (!empty($artist_name) 
+    else if (!empty($artist_name) 
         && empty($album_name)
         && empty($song_name)
         && empty($year))
@@ -43,7 +67,7 @@ if ($selected_radio ==  "generaluser") {
 
     }
 
-    elseif (!empty($album_name) 
+    else if (!empty($album_name) 
         && empty($artist_name)
         && empty($song_name)
         && empty($year))
@@ -60,7 +84,7 @@ if ($selected_radio ==  "generaluser") {
             echo $row['AlbumName'];                                                                     
         }                             
     }
-    elseif (!empty($song_name)
+    else if (!empty($song_name)
         && empty($artist_name)
         && empty($song_name)
         && empty($year))
