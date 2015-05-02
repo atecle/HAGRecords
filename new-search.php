@@ -196,104 +196,131 @@ elseif ($selected_radio == "artist") {
 
 } elseif($selected_radio == "producer") {
 
- echo "producer";
+    echo "producer";
     //see part 1 for query restrictions
     $artist_name = $_POST['artistname'];
     $album_name = $_POST['albumname'];
     $song_name = $_POST['songname'];
     $year = $_POST['releaseyear'];
-	$contract_years = $_POST['contractyears'];
-	$first_name = $_POST['firstname'];
-	$last_name = $_POST['lastname'];
-	$genre = $_POST['genre'];
-	$act_name = $_POST['actname'];
+    $contract_years = $_POST['contractyears'];
+    $first_name = $_POST['firstname'];
+    $last_name = $_POST['lastname'];
+    $genre = $_POST['genre'];
+    $act_name = $_POST['actname'];
 
-	$hasArtist = !empty($artist_name);
-	$hasAct =  !empty($act_name);
-	$hasAlbum = !empty($album_name);
-	$hasSong = !empty($song_name);
-	$hasYear = !empty($year);
-	$hasLast =  !empty($last_name);
-	$hasFirst = !empty($first_name);
-	$hasGenre = !empty($genre);
-	$hasCYear = !empty($contract_years);
+    $hasArtist = !empty($artist_name);
+    $hasAct =  !empty($act_name);
+    $hasAlbum = !empty($album_name);
+    $hasSong = !empty($song_name);
+    $hasYear = !empty($year);
+    $hasLast =  !empty($last_name);
+    $hasFirst = !empty($first_name);
+    $hasGenre = !empty($genre);
+    $hasCYear = !empty($contract_years);
 
-	if($hasYear){
-		echo "A producer user cannot access release year.";		
-	} elseif ($hasCYear){
-		echo "A producer user cannot access contract year.";
-	} elseif ($hasFirst){
-		echo "A producer user cannot access first name.";
-	}
+    if($hasYear){
+        echo "<h2>A producer user cannot access release year.</h2>";
+        return;
+    } elseif ($hasCYear){
+        echo "<h2>A producer user cannot access contract year.</h2>";
+        return;
+    } elseif ($hasFirst){
+        echo "<h2>A producer user cannot access first name.</h2>";
+        return;
+    }
 
-	//Act, Albums, Artist, Discography, Employee, Executives, Producers, Songs
-	if($hasArtist && !$hasAct && !$hasAlbum && !$hasSong && !$hasYear && !$hasLast && !$hasFirst && !$hasGenre && !$hasCYear){
-		echo "searched artist name";
-		$sql = "SELECT Artist.ArtistName, Act.ActName, Albums.AlbumName, Albums.Year
-				FROM Artist, Act, Albums, Discography
-				WHERE Artist.ArtistName = \"$artist_name\" 
-				AND Artist.Artist_ActName = Act.ActName
-				AND Act.Act_DiscographyID = Albums.Albums_DiscographyID";
-	} elseif(!$hasArtist && !$hasAct && $hasAlbum && !$hasSong && !$hasYear && !$hasLast && !$hasFirst && !$hasGenre && !$hasCYear){
-		echo "searched album name";
-		$sql = "SELECT Act.ActName, Albums.AlbumName, Albums.Year
-				FROM Act, Albums, Discography
-				WHERE Albums.AlbumName = \"$album_name\" 
-				AND Act.Act_DiscographyID = Albums.Albums_DiscographyID";
-	} elseif(!$hasArtist && !$hasAct && !$hasAlbum && $hasSong && !$hasYear && !$hasLast && !$hasFirst && !$hasGenre && !$hasCYear){
-		echo "searched song name";
-		$sql = "SELECT Song.SongName, Act.ActName, Albums.AlbumName, Albums.Year
-				FROM Song, Act, Albums, Discography
-				WHERE Song.SongName = \"$song_name\" 
-				AND Song.AlbumName = Albums.AlbumName
-				AND Act.Act_DiscographyID = Albums.Albums_DiscographyID";
-	} elseif(!$hasArtist && !$hasAct && !$hasAlbum && !$hasSong && !$hasYear && !$hasLast && !$hasFirst && !$hasGenre && !$hasCYear){
-		echo "searched all";
-		$sql = "SELECT Song.SongName, Act.ActName, Albums.AlbumName, Employee.LastName, Employee.FirstName 
-				FROM Song, Act, Albums, Employee, Discography
-				WHERE Song.AlbumName = Albums.AlbumName
-				AND Act.Act_DiscographyID = Albums.Albums_DiscographyID";		
-	}
-	/*else if($year_length != 0){
-		$sql = "SELECT Act.ActName, Album.AlbumName, Album.Year
-				FROM Act, Album, Discography
-				WHERE Album.Year = \"$year\" 
-				AND Act.Act_DiscographyID = Album.Albums_DiscographyID";
-	}
-	else if($employee_name_length != 0){
-		$sql = "SELECT Act.ActName, Album.AlbumName, Album.Year
-				FROM Act, Album, Discography
-				WHERE Album.Year = \"$year\" 
-				AND Act.Act_DiscographyID = Album.Albums_DiscographyID";
-	}*/
-	
-	$result = mysql_query($sql);
-	
-	if($result == false){
-		die(mysql_error());
-	}
+    //Act, Albums, Artist, Discography, Employee, Executives, Producers, Songs
+    if($hasArtist && !$hasAct && !$hasAlbum && !$hasSong && !$hasYear && !$hasLast && !$hasFirst && !$hasGenre && !$hasCYear){
+        echo "searched artist name";
+        $sql = "SELECT Artist.ArtistName, Act.ActName, Albums.AlbumName, Albums.Year
+            FROM Artist, Act, Albums, Discography
+            WHERE Artist.ArtistName = \"$artist_name\" 
+            AND Artist.Artist_ActName = Act.ActName
+            AND Act.Act_DiscographyID = Albums.Albums_DiscographyID";
 
-	/*
-	if($artist_name_length != 0){
-		echo $row['ArtistName'];
-		echo $row['ActName'];
-		echo $row['AlbumName'];
-		echo $row['Year'];		
-	}
-	else if($album_name_length != 0){
-		echo $row['AlbumName'];
-		echo $row['ActName'];
-		echo $row['Year'];	
-	}
-	else if($song_name_length != 0){
-		echo $row['SongName'];
-		echo $row['ActName'];
-		echo $row['AlbumName'];
-		echo $row['Year'];
-	}
-	*/
+        $result = mysql_query($sql);
 
-	echo "result: " . $result;
+        if ($result == FALSE) {
+            die(mysql_error());
+        }
+
+
+        echo "<table class=\"table table-bordered\">
+            <tr><th>Artist</th>
+            <th>Act</th> </tr>";
+        while ($row = mysql_fetch_assoc($result)) {
+
+           echo "<tr><td>" . $row['ArtistName'] . "</td><td>" . $row['ActName'] . "</td></tr>";
+        }
+        echo "</table>";
+        return;
+
+    } elseif(!$hasArtist && !$hasAct && $hasAlbum && !$hasSong && !$hasYear && !$hasLast && !$hasFirst && !$hasGenre && !$hasCYear){
+        echo "searched album name";
+        $sql = "SELECT Act.ActName, Albums.AlbumName, Albums.Year
+            FROM Act, Albums, Discography
+            WHERE Albums.AlbumName = \"$album_name\" 
+            AND Act.Act_DiscographyID = Albums.Albums_DiscographyID";
+
+        return;
+    } elseif(!$hasArtist && !$hasAct && !$hasAlbum && $hasSong && !$hasYear && !$hasLast && !$hasFirst && !$hasGenre && !$hasCYear){
+        echo "searched song name";
+        $sql = "SELECT Song.SongName, Act.ActName, Albums.AlbumName, Albums.Year
+            FROM Song, Act, Albums, Discography
+            WHERE Song.SongName = \"$song_name\" 
+            AND Song.AlbumName = Albums.AlbumName
+            AND Act.Act_DiscographyID = Albums.Albums_DiscographyID";
+
+        return;
+    } elseif(!$hasArtist && !$hasAct && !$hasAlbum && !$hasSong && !$hasYear && !$hasLast && !$hasFirst && !$hasGenre && !$hasCYear){
+        echo "searched all";
+        $sql = "SELECT Song.SongName, Act.ActName, Albums.AlbumName, Employee.LastName, Employee.FirstName 
+            FROM Song, Act, Albums, Employee, Discography
+            WHERE Song.AlbumName = Albums.AlbumName
+            AND Act.Act_DiscographyID = Albums.Albums_DiscographyID";		
+
+        return;
+    }
+    /*else if($year_length != 0){
+        $sql = "SELECT Act.ActName, Album.AlbumName, Album.Year
+                FROM Act, Album, Discography
+                WHERE Album.Year = \"$year\" 
+                AND Act.Act_DiscographyID = Album.Albums_DiscographyID";
+    }
+    else if($employee_name_length != 0){
+        $sql = "SELECT Act.ActName, Album.AlbumName, Album.Year
+                FROM Act, Album, Discography
+                WHERE Album.Year = \"$year\" 
+                AND Act.Act_DiscographyID = Album.Albums_DiscographyID";
+    }*/
+
+    $result = mysql_query($sql);
+
+    if($result == false){
+        die(mysql_error());
+    }
+
+    /*
+    if($artist_name_length != 0){
+        echo $row['ArtistName'];
+        echo $row['ActName'];
+        echo $row['AlbumName'];
+        echo $row['Year'];		
+    }
+    else if($album_name_length != 0){
+        echo $row['AlbumName'];
+        echo $row['ActName'];
+        echo $row['Year'];	
+    }
+    else if($song_name_length != 0){
+        echo $row['SongName'];
+        echo $row['ActName'];
+        echo $row['AlbumName'];
+        echo $row['Year'];
+    }
+     */
+
+    echo "result: " . $result;
 
 } elseif($selected_radio == "executive") {
 
