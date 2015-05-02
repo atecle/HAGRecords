@@ -313,7 +313,7 @@ elseif ($selected_radio == "artist") {
 		<tr><th>Song</th><th>Artist</th><th>Act</th><th>Album</th><th>Genre</th></tr>";
 	while($row = mysql_fetch_assoc($result)){
 		
-		echo "<tr><td>" . $row['SongName'] . "</td><td>" . $row['Artist.ArtistName'] . "</td><td>" . $row['ActName'] . "</td><td>" . $row['Albums.AlbumName'] . "</td><td>" . $row['Genre'] . "</td></tr>";	
+		echo "<tr><td>" . $row['SongName'] . "</td><td>" . $row['ArtistName'] . "</td><td>" . $row['ActName'] . "</td><td>" . $row['AlbumName'] . "</td><td>" . $row['Genre'] . "</td></tr>";	
 
 	}	
 	echo "</table>";
