@@ -232,11 +232,10 @@ elseif ($selected_radio == "artist") {
     //Act, Albums, Artist, Discography, Employee, Executives, Producers, Songs
     if($hasArtist && !$hasAct && !$hasAlbum && !$hasSong && !$hasYear && !$hasLast && !$hasFirst && !$hasGenre && !$hasCYear){
         echo "searched artist name";
-        $sql = "SELECT Artist.ArtistName, Act.ActName, Albums.AlbumName, Albums.Year
-            FROM Artist, Act, Albums, Discography
-            WHERE Artist.ArtistName = \"$artist_name\" 
-            AND Artist.Artist_ActName = Act.ActName
-            AND Act.Act_DiscographyID = Albums.Albums_DiscographyID";
+        $sql = "SELECT ArtistName, ActName
+            FROM Artist, Act
+            WHERE Artist.ArtistName REGEXP '^$artist_name'
+            AND Artist.Artist_ActName = Act.ActName";
 
         $result = mysql_query($sql);
 
@@ -257,28 +256,67 @@ elseif ($selected_radio == "artist") {
 
     } elseif(!$hasArtist && !$hasAct && $hasAlbum && !$hasSong && !$hasYear && !$hasLast && !$hasFirst && !$hasGenre && !$hasCYear){
         echo "searched album name";
-        $sql = "SELECT Act.ActName, Albums.AlbumName, Albums.Year
-            FROM Act, Albums, Discography
-            WHERE Albums.AlbumName = \"$album_name\" 
+        $sql = "SELECT AlbumName, ActName
+            FROM Albums, Act, Discography
+            WHERE Albums.AlbumName REGEXP '^$album_name'
             AND Act.Act_DiscographyID = Albums.Albums_DiscographyID";
+	
+	$result = mysql_query($sql);
+	if ($result == FALSE){
+		die(mysql_error());
+	}
+
+	echo "<table class=\"table table-bordered\">
+		<tr><th>Album</th><th>Act</th></tr>";
+	while($row = mysql_fetch_assoc($result)){
+		echo "<tr><td>" . $row['AlbumName'] . "</td><td>" . $row['ActName'] . "</td></tr>";
+	}
+	echo "</table>";	
 
         return;
     } elseif(!$hasArtist && !$hasAct && !$hasAlbum && $hasSong && !$hasYear && !$hasLast && !$hasFirst && !$hasGenre && !$hasCYear){
         echo "searched song name";
-        $sql = "SELECT Song.SongName, Act.ActName, Albums.AlbumName, Albums.Year
+        $sql = "SELECT SongName, ActName, Albums.AlbumName
             FROM Song, Act, Albums, Discography
-            WHERE Song.SongName = \"$song_name\" 
+            WHERE Song.SongName REGEXP '^$song_name' 
             AND Song.AlbumName = Albums.AlbumName
             AND Act.Act_DiscographyID = Albums.Albums_DiscographyID";
+	
+	$result = mysql_query($sql);
+	if ($result == FALSE){
+		die (mysql_error());
+	}
+
+	echo "<table class=\"table table-bordered\">
+		<tr><th>Song</th><th>Act</th><th>Album</th></tr>";
+
+	while($row = mysql_fetch_assoc($result)){
+		echo "<tr><td>" . $row['SongName'] . "</td><td>" . $row['ActName'] . "</td><td>" . $row['AlbumName'] . "</td></tr>";
+	}
+	echo "</table>";
 
         return;
     } elseif(!$hasArtist && !$hasAct && !$hasAlbum && !$hasSong && !$hasYear && !$hasLast && !$hasFirst && !$hasGenre && !$hasCYear){
         echo "searched all";
-        $sql = "SELECT Song.SongName, Act.ActName, Albums.AlbumName, Employee.LastName, Employee.FirstName 
-            FROM Song, Act, Albums, Employee, Discography
+        $sql = "SELECT SongName, ActName, Albums.AlbumName, Artist.ArtistName, Employee.LastName, Genre 
+            FROM Song, Act, Albums, Employee, Discography, Artist
             WHERE Song.AlbumName = Albums.AlbumName
-            AND Act.Act_DiscographyID = Albums.Albums_DiscographyID";		
+            AND Act.Act_DiscographyID = Albums.Albums_DiscographyID
+		AND Artist.Artist_ActName = Act.ActName";		
+	
+	$result = mysql_query($sql);
 
+	if ($result == FALSE){
+		die (mysql_error());
+	}
+	echo "<table class =\"table table-bordered\">
+		<tr><th>Song</th><th>Artist</th><th>Act</th><th>Album</th><th>Genre</th></tr>";
+	while($row = mysql_fetch_assoc($result)){
+		
+		echo "<tr><td>" . $row['SongName'] . "</td><td>" . $row['Artist.ArtistName'] . "</td><td>" . $row['ActName'] . "</td><td>" . $row['Albums.AlbumName'] . "</td><td>" . $row['Genre'] . "</td></tr>";	
+
+	}	
+	echo "</table>";
         return;
     }
     /*else if($year_length != 0){
