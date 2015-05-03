@@ -298,17 +298,37 @@ elseif ($selected_radio == "artist") {
         return;
     } elseif(!$hasArtist && !$hasAct && !$hasAlbum && !$hasSong && !$hasYear && !$hasLast && !$hasFirst && !$hasGenre && !$hasCYear){
         echo "searched all";
-        $sql = "SELECT DISTINCT SongName, ActName, Albums.AlbumName, Artist.ArtistName, Employee.LastName, Genre 
-            FROM Song, Act, Albums, Employee, Discography, Artist
+        $sql = "SELECT DISTINCT SongName, ActName, Albums.AlbumName, Artist.ArtistName, Genre 
+            FROM Song, Act, Albums, Discography, Artist
             WHERE Song.AlbumName = Albums.AlbumName
             AND Act.Act_DiscographyID = Albums.Albums_DiscographyID
 		AND Artist.Artist_ActName = Act.ActName";		
+	/*
+
+	
+        $sql = "SELECT Act.ActName, Albums.AlbumName, Song.SongName, Albums.Year 
+            FROM Act, Albums, Song 
+            WHERE Act.Act_DiscographyID = Albums.Albums_DiscographyID
+            AND Albums.Albums_DiscographyID = Song.Song_DiscographyID";                        
+
+
+
+	*/
+
+
+	$sql2 = "SELECT LastName FROM Employee";
 	
 	$result = mysql_query($sql);
+	$result2 = mysql_query($sql2);
 
 	if ($result == FALSE){
 		die (mysql_error());
 	}
+
+	if ($result2 == FALSE){
+		die (mysql_error());
+	}
+
 	echo "<table class =\"table table-bordered\">
 		<tr><th>Song</th><th>Artist</th><th>Act</th><th>Album</th><th>Genre</th></tr>";
 	while($row = mysql_fetch_assoc($result)){
@@ -317,48 +337,17 @@ elseif ($selected_radio == "artist") {
 
 	}	
 	echo "</table>";
+
+	echo "<table class=\"table table-bordered\">
+		<tr><th>Last Name</th></tr>";
+	while ($row = $mysql_fetch_assoc($result2)){
+		echo "<tr><td>" . $row['LastName'] . "</td></tr>";
+	}
+	
+	echo "</table>";	
+
         return;
     }
-    /*else if($year_length != 0){
-        $sql = "SELECT Act.ActName, Album.AlbumName, Album.Year
-                FROM Act, Album, Discography
-                WHERE Album.Year = \"$year\" 
-                AND Act.Act_DiscographyID = Album.Albums_DiscographyID";
-    }
-    else if($employee_name_length != 0){
-        $sql = "SELECT Act.ActName, Album.AlbumName, Album.Year
-                FROM Act, Album, Discography
-                WHERE Album.Year = \"$year\" 
-                AND Act.Act_DiscographyID = Album.Albums_DiscographyID";
-    }*/
-
-    $result = mysql_query($sql);
-
-    if($result == false){
-        die(mysql_error());
-    }
-
-    /*
-    if($artist_name_length != 0){
-        echo $row['ArtistName'];
-        echo $row['ActName'];
-        echo $row['AlbumName'];
-        echo $row['Year'];		
-    }
-    else if($album_name_length != 0){
-        echo $row['AlbumName'];
-        echo $row['ActName'];
-        echo $row['Year'];	
-    }
-    else if($song_name_length != 0){
-        echo $row['SongName'];
-        echo $row['ActName'];
-        echo $row['AlbumName'];
-        echo $row['Year'];
-    }
-     */
-
-    echo "result: " . $result;
 
 } elseif($selected_radio == "executive") {
 
