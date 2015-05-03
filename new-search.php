@@ -232,7 +232,7 @@ elseif ($selected_radio == "artist") {
     //Act, Albums, Artist, Discography, Employee, Executives, Producers, Songs
     if($hasArtist && !$hasAct && !$hasAlbum && !$hasSong && !$hasYear && !$hasLast && !$hasFirst && !$hasGenre && !$hasCYear){
         echo "searched artist name";
-        $sql = "SELECT ArtistName, ActName
+        $sql = "SELECT DISTINCT ArtistName, ActName
             FROM Artist, Act
             WHERE Artist.ArtistName REGEXP '^$artist_name'
             AND Artist.Artist_ActName = Act.ActName";
@@ -256,7 +256,7 @@ elseif ($selected_radio == "artist") {
 
     } elseif(!$hasArtist && !$hasAct && $hasAlbum && !$hasSong && !$hasYear && !$hasLast && !$hasFirst && !$hasGenre && !$hasCYear){
         echo "searched album name";
-        $sql = "SELECT AlbumName, ActName
+        $sql = "SELECT DISTINCT AlbumName, ActName
             FROM Albums, Act, Discography
             WHERE Albums.AlbumName REGEXP '^$album_name'
             AND Act.Act_DiscographyID = Albums.Albums_DiscographyID";
@@ -276,7 +276,7 @@ elseif ($selected_radio == "artist") {
         return;
     } elseif(!$hasArtist && !$hasAct && !$hasAlbum && $hasSong && !$hasYear && !$hasLast && !$hasFirst && !$hasGenre && !$hasCYear){
         echo "searched song name";
-        $sql = "SELECT SongName, ActName, Albums.AlbumName
+        $sql = "SELECT DISTINCT SongName, ActName, Albums.AlbumName
             FROM Song, Act, Albums, Discography
             WHERE Song.SongName REGEXP '^$song_name' 
             AND Song.AlbumName = Albums.AlbumName
@@ -298,7 +298,7 @@ elseif ($selected_radio == "artist") {
         return;
     } elseif(!$hasArtist && !$hasAct && !$hasAlbum && !$hasSong && !$hasYear && !$hasLast && !$hasFirst && !$hasGenre && !$hasCYear){
         echo "searched all";
-        $sql = "SELECT SongName, ActName, Albums.AlbumName, Artist.ArtistName, Employee.LastName, Genre 
+        $sql = "SELECT DISTINCT SongName, ActName, Albums.AlbumName, Artist.ArtistName, Employee.LastName, Genre 
             FROM Song, Act, Albums, Employee, Discography, Artist
             WHERE Song.AlbumName = Albums.AlbumName
             AND Act.Act_DiscographyID = Albums.Albums_DiscographyID
