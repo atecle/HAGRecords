@@ -201,7 +201,6 @@ if ($selected_radio ==  "generaluser") {
 }
 elseif ($selected_radio == "artist") {
 	
-	echo "Artist";
     //see part 1 for query restrictions
     $artist_name = $_POST['artistname'];
     $album_name = $_POST['albumname'];
@@ -236,7 +235,6 @@ elseif ($selected_radio == "artist") {
 
     //Act, Albums, Artist, Discography, Employee, Executives, Producers, Songs
     if($hasArtist && !$hasAct && !$hasAlbum && !$hasSong && !$hasYear && !$hasLast && !$hasFirst && !$hasGenre && !$hasCYear){
-        echo "searched artist name";
         $sql = "SELECT DISTINCT ArtistName, ActName
             FROM Artist, Act
             WHERE Artist.ArtistName REGEXP '^$artist_name'
@@ -354,11 +352,6 @@ elseif ($selected_radio == "artist") {
  echo "<h2>Query not supported. </h2>";
  return;
 
-
-	
-	
-	
-
 } elseif($selected_radio == "producer") {
 
     //see part 1 for query restrictions
@@ -464,8 +457,6 @@ elseif ($selected_radio == "artist") {
             AND Act.Act_DiscographyID = Albums.Albums_DiscographyID
             AND Artist.Artist_ActName = Act.ActName";		
     /*
-
-
         $sql = "SELECT Act.ActName, Albums.AlbumName, Song.SongName, Albums.Year 
             FROM Act, Albums, Song 
             WHERE Act.Act_DiscographyID = Albums.Albums_DiscographyID
@@ -476,7 +467,7 @@ elseif ($selected_radio == "artist") {
      */
 
 
-        $sql2 = "SELECT Employee.LastName FROM Employee";
+        $sql2 = "SELECT LastName, Phone FROM Employee";
 
         $result = mysql_query($sql);
         $result2 = mysql_query($sql2);
@@ -498,10 +489,13 @@ elseif ($selected_radio == "artist") {
         }	
         echo "</table>";
 
+        echo "<h2> Information about Employees </h2>";
         echo "<table class=\"table table-bordered\">
-            <tr><th>Last Name</th></tr>";
+            <tr><th>Last Name</th>
+            <th>Phone</th></tr>";
         while ($row2 = mysql_fetch_assoc($result2)){
-            echo "<tr><td>" . $row2['LastName'] . "</td></tr>";
+            echo "<tr><td>" . $row2['LastName'] . "</td><td>" . 
+                $row2['Phone'] . "</td></tr>";
         }
 
         echo "</table>";	
