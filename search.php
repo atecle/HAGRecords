@@ -731,6 +731,11 @@ elseif ($selected_radio == "artist") {
             return;
         } 
 
+	else{
+		 echo "<h2>Query not supported.</h2>";
+    		return;
+    
+	}
     //query for data not allowed to user (but this user can access all data)    
 
 }
