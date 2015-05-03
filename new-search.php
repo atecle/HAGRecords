@@ -193,10 +193,167 @@ if ($selected_radio ==  "generaluser") {
 
 }
 elseif ($selected_radio == "artist") {
+	
+	echo "Artist";
+    //see part 1 for query restrictions
+    $artist_name = $_POST['artistname'];
+    $album_name = $_POST['albumname'];
+    $song_name = $_POST['songname'];
+    $year = $_POST['releaseyear'];
+    $contract_years = $_POST['contractyears'];
+    $first_name = $_POST['firstname'];
+    $last_name = $_POST['lastname'];
+    $genre = $_POST['genre'];
+    $act_name = $_POST['actname'];
+
+    $hasArtist = !empty($artist_name);
+    $hasAct =  !empty($act_name);
+    $hasAlbum = !empty($album_name);
+    $hasSong = !empty($song_name);
+    $hasYear = !empty($year);
+    $hasLast =  !empty($last_name);
+    $hasFirst = !empty($first_name);
+    $hasGenre = !empty($genre);
+    $hasCYear = !empty($contract_years);
+
+    if($hasYear){
+        echo "<h2>An artist user cannot access release year.</h2>";
+        return;
+    } elseif ($hasCYear){
+        echo "<h2>An artist user cannot access contract year.</h2>";
+        return;
+    } elseif ($hasFirst){
+        echo "<h2>An artist user cannot access first name.</h2>";
+        return;
+    }
+
+    //Act, Albums, Artist, Discography, Employee, Executives, Producers, Songs
+    if($hasArtist && !$hasAct && !$hasAlbum && !$hasSong && !$hasYear && !$hasLast && !$hasFirst && !$hasGenre && !$hasCYear){
+        echo "searched artist name";
+        $sql = "SELECT DISTINCT ArtistName, ActName
+            FROM Artist, Act
+            WHERE Artist.ArtistName REGEXP '^$artist_name'
+            AND Artist.Artist_ActName = Act.ActName";
+
+        $result = mysql_query($sql);
+
+        if ($result == FALSE) {
+            die(mysql_error());
+        }
+
+
+        echo "<table class=\"table table-bordered\">
+            <tr><th>Artist</th>
+            <th>Act</th> </tr>";
+        while ($row = mysql_fetch_assoc($result)) {
+
+           echo "<tr><td>" . $row['ArtistName'] . "</td><td>" . $row['ActName'] . "</td></tr>";
+        }
+        echo "</table>";
+        return;
+
+    } elseif(!$hasArtist && !$hasAct && $hasAlbum && !$hasSong && !$hasYear && !$hasLast && !$hasFirst && !$hasGenre && !$hasCYear){
+        echo "searched album name";
+        $sql = "SELECT DISTINCT AlbumName, ActName
+            FROM Albums, Act, Discography
+            WHERE Albums.AlbumName REGEXP '^$album_name'
+            AND Act.Act_DiscographyID = Albums.Albums_DiscographyID";
+    
+    $result = mysql_query($sql);
+    if ($result == FALSE){
+        die(mysql_error());
+    }
+
+    echo "<table class=\"table table-bordered\">
+        <tr><th>Album</th><th>Act</th></tr>";
+    while($row = mysql_fetch_assoc($result)){
+        echo "<tr><td>" . $row['AlbumName'] . "</td><td>" . $row['ActName'] . "</td></tr>";
+    }
+    echo "</table>";    
+
+        return;
+    } elseif(!$hasArtist && !$hasAct && !$hasAlbum && $hasSong && !$hasYear && !$hasLast && !$hasFirst && !$hasGenre && !$hasCYear){
+        echo "searched song name";
+        $sql = "SELECT DISTINCT SongName, ActName, Albums.AlbumName
+            FROM Song, Act, Albums, Discography
+            WHERE Song.SongName REGEXP '^$song_name' 
+            AND Song.AlbumName = Albums.AlbumName
+            AND Act.Act_DiscographyID = Albums.Albums_DiscographyID";
+    
+    $result = mysql_query($sql);
+    if ($result == FALSE){
+        die (mysql_error());
+    }
+
+    echo "<table class=\"table table-bordered\">
+        <tr><th>Song</th><th>Act</th><th>Album</th></tr>";
+
+    while($row = mysql_fetch_assoc($result)){
+        echo "<tr><td>" . $row['SongName'] . "</td><td>" . $row['ActName'] . "</td><td>" . $row['AlbumName'] . "</td></tr>";
+    }
+    echo "</table>";
+
+        return;
+    } elseif(!$hasArtist && !$hasAct && !$hasAlbum && !$hasSong && !$hasYear && !$hasLast && !$hasFirst && !$hasGenre && !$hasCYear){
+        $sql = "SELECT DISTINCT SongName, ActName, Albums.AlbumName, Artist.ArtistName, ContractYears
+            FROM Song, Act, Albums, Discography, Artist
+            WHERE Song.AlbumName = Albums.AlbumName
+            AND Act.Act_DiscographyID = Albums.Albums_DiscographyID
+        AND Artist.Artist_ActName = Act.ActName";       
+    /*
+
+    
+        $sql = "SELECT Act.ActName, Albums.AlbumName, Song.SongName, Albums.Year 
+            FROM Act, Albums, Song 
+            WHERE Act.Act_DiscographyID = Albums.Albums_DiscographyID
+            AND Albums.Albums_DiscographyID = Song.Song_DiscographyID";                        
+
+
+
+    */
+
+    $sql2 = "SELECT Employee.LastName FROM Employee";
+    
+    $result = mysql_query($sql);
+    $result2 = mysql_query($sql2);
+
+    if ($result == FALSE){
+        die (mysql_error());
+    }
+
+    if ($result2 == FALSE){
+        die (mysql_error());
+    }
+
+    echo "<table class =\"table table-bordered\">
+        <tr><th>Song</th><th>Artist</th><th>Act</th><th>Album</th><th>Contract Years</th></tr>";
+    while($row = mysql_fetch_assoc($result)){
+        
+        echo "<tr><td>" . $row['SongName'] . "</td><td>" . $row['ArtistName'] . "</td><td>" . $row['ActName'] . "</td><td>" . $row['AlbumName'] . "</td><td>" . $row['ContractYears'] . "</td></tr>";   
+
+    }   
+    echo "</table>";
+
+    echo "<table class=\"table table-bordered\">
+        <tr><th>Last Name</th></tr>";
+    while ($row2 = mysql_fetch_assoc($result2)){
+        echo "<tr><td>" . $row2['LastName'] . "</td></tr>";
+    }
+    
+    echo "</table>";    
+
+        return;
+    }
+ echo "<h2>Query not supported. </h2>";
+ return;
+
+
+	
+	
+	
 
 } elseif($selected_radio == "producer") {
 
-    echo "producer";
     //see part 1 for query restrictions
     $artist_name = $_POST['artistname'];
     $album_name = $_POST['albumname'];
@@ -231,7 +388,6 @@ elseif ($selected_radio == "artist") {
 
     //Act, Albums, Artist, Discography, Employee, Executives, Producers, Songs
     if($hasArtist && !$hasAct && !$hasAlbum && !$hasSong && !$hasYear && !$hasLast && !$hasFirst && !$hasGenre && !$hasCYear){
-        echo "searched artist name";
         $sql = "SELECT DISTINCT ArtistName, ActName
             FROM Artist, Act
             WHERE Artist.ArtistName REGEXP '^$artist_name'
@@ -255,7 +411,6 @@ elseif ($selected_radio == "artist") {
         return;
 
     } elseif(!$hasArtist && !$hasAct && $hasAlbum && !$hasSong && !$hasYear && !$hasLast && !$hasFirst && !$hasGenre && !$hasCYear){
-        echo "searched album name";
         $sql = "SELECT DISTINCT AlbumName, ActName
             FROM Albums, Act, Discography
             WHERE Albums.AlbumName REGEXP '^$album_name'
@@ -275,7 +430,6 @@ elseif ($selected_radio == "artist") {
 
         return;
     } elseif(!$hasArtist && !$hasAct && !$hasAlbum && $hasSong && !$hasYear && !$hasLast && !$hasFirst && !$hasGenre && !$hasCYear){
-        echo "searched song name";
         $sql = "SELECT DISTINCT SongName, ActName, Albums.AlbumName
             FROM Song, Act, Albums, Discography
             WHERE Song.SongName REGEXP '^$song_name' 
@@ -297,7 +451,6 @@ elseif ($selected_radio == "artist") {
 
         return;
     } elseif(!$hasArtist && !$hasAct && !$hasAlbum && !$hasSong && !$hasYear && !$hasLast && !$hasFirst && !$hasGenre && !$hasCYear){
-        echo "searched all";
         $sql = "SELECT DISTINCT SongName, ActName, Albums.AlbumName, Artist.ArtistName, ContractYears
             FROM Song, Act, Albums, Discography, Artist
             WHERE Song.AlbumName = Albums.AlbumName
@@ -348,6 +501,10 @@ elseif ($selected_radio == "artist") {
 
         return;
     }
+
+	echo "<h2>Query not supported.</h2>";
+	return;
+	
 
 } elseif($selected_radio == "executive") {
 
