@@ -520,8 +520,26 @@ elseif ($selected_radio == "artist") {
             echo "</table>";
 
 
+            $sql = "SELECT ProducerName, ContractYears FROM Producers";
+
+            $result = mysql_query($sql);
+
+            if ($result == FALSE) {
+                die(mysql_error());
+            }
+
+            echo "<h2> Information about producers. </h2>";
+            echo "<table class=\"table table-bordered\">
+                <tr><th> Producer</th><th>Contract Yrs</th></tr>";
+            while ($row = mysql_fetch_assoc($result)) {
+                
+                echo "<tr><td>" . $row['ProducerName'] . "</td><td>" . $row['ContractYears'] . "</td></tr>";
+            }            
+            echo "</table>";
+       
             
-            return;
+
+       
         } 
 
     //query for data not allowed to user (but this user can access all data)    
