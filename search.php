@@ -351,9 +351,11 @@ elseif ($selected_radio == "artist") {
 
         return;
     }
- echo "<h2>Query not supported. </h2>";
- return;
-
+    
+    else{
+ 	echo "<h2>Query not supported. </h2>";
+ 	return;
+	}
 
 	
 	
