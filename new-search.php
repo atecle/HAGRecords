@@ -196,7 +196,6 @@ elseif ($selected_radio == "artist") {
 
 } elseif($selected_radio == "producer") {
 
-    echo "producer";
     //see part 1 for query restrictions
     $artist_name = $_POST['artistname'];
     $album_name = $_POST['albumname'];
@@ -231,7 +230,6 @@ elseif ($selected_radio == "artist") {
 
     //Act, Albums, Artist, Discography, Employee, Executives, Producers, Songs
     if($hasArtist && !$hasAct && !$hasAlbum && !$hasSong && !$hasYear && !$hasLast && !$hasFirst && !$hasGenre && !$hasCYear){
-        echo "searched artist name";
         $sql = "SELECT DISTINCT ArtistName, ActName
             FROM Artist, Act
             WHERE Artist.ArtistName REGEXP '^$artist_name'
@@ -255,7 +253,6 @@ elseif ($selected_radio == "artist") {
         return;
 
     } elseif(!$hasArtist && !$hasAct && $hasAlbum && !$hasSong && !$hasYear && !$hasLast && !$hasFirst && !$hasGenre && !$hasCYear){
-        echo "searched album name";
         $sql = "SELECT DISTINCT AlbumName, ActName
             FROM Albums, Act, Discography
             WHERE Albums.AlbumName REGEXP '^$album_name'
@@ -275,7 +272,6 @@ elseif ($selected_radio == "artist") {
 
         return;
     } elseif(!$hasArtist && !$hasAct && !$hasAlbum && $hasSong && !$hasYear && !$hasLast && !$hasFirst && !$hasGenre && !$hasCYear){
-        echo "searched song name";
         $sql = "SELECT DISTINCT SongName, ActName, Albums.AlbumName
             FROM Song, Act, Albums, Discography
             WHERE Song.SongName REGEXP '^$song_name' 
@@ -297,7 +293,6 @@ elseif ($selected_radio == "artist") {
 
         return;
     } elseif(!$hasArtist && !$hasAct && !$hasAlbum && !$hasSong && !$hasYear && !$hasLast && !$hasFirst && !$hasGenre && !$hasCYear){
-        echo "searched all";
         $sql = "SELECT DISTINCT SongName, ActName, Albums.AlbumName, Artist.ArtistName, ContractYears
             FROM Song, Act, Albums, Discography, Artist
             WHERE Song.AlbumName = Albums.AlbumName
@@ -348,6 +343,10 @@ elseif ($selected_radio == "artist") {
 
         return;
     }
+
+	echo "<h2>Query not supported.</h2>";
+	return;
+	
 
 } elseif($selected_radio == "executive") {
 
