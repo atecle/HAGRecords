@@ -249,7 +249,7 @@ elseif ($selected_radio == "artist") {
             <th>Act</th> </tr>";
         while ($row = mysql_fetch_assoc($result)) {
 
-           echo "<tr><td>" . $row['ArtistName'] . "</td><td>" . $row['ActName'] . "</td></tr>";
+            echo "<tr><td>" . $row['ArtistName'] . "</td><td>" . $row['ActName'] . "</td></tr>";
         }
         echo "</table>";
         return;
@@ -260,18 +260,18 @@ elseif ($selected_radio == "artist") {
             FROM Albums, Act, Discography
             WHERE Albums.AlbumName REGEXP '^$album_name'
             AND Act.Act_DiscographyID = Albums.Albums_DiscographyID";
-	
-	$result = mysql_query($sql);
-	if ($result == FALSE){
-		die(mysql_error());
-	}
 
-	echo "<table class=\"table table-bordered\">
-		<tr><th>Album</th><th>Act</th></tr>";
-	while($row = mysql_fetch_assoc($result)){
-		echo "<tr><td>" . $row['AlbumName'] . "</td><td>" . $row['ActName'] . "</td></tr>";
-	}
-	echo "</table>";	
+        $result = mysql_query($sql);
+        if ($result == FALSE){
+            die(mysql_error());
+        }
+
+        echo "<table class=\"table table-bordered\">
+            <tr><th>Album</th><th>Act</th></tr>";
+        while($row = mysql_fetch_assoc($result)){
+            echo "<tr><td>" . $row['AlbumName'] . "</td><td>" . $row['ActName'] . "</td></tr>";
+        }
+        echo "</table>";	
 
         return;
     } elseif(!$hasArtist && !$hasAct && !$hasAlbum && $hasSong && !$hasYear && !$hasLast && !$hasFirst && !$hasGenre && !$hasCYear){
@@ -281,19 +281,19 @@ elseif ($selected_radio == "artist") {
             WHERE Song.SongName REGEXP '^$song_name' 
             AND Song.AlbumName = Albums.AlbumName
             AND Act.Act_DiscographyID = Albums.Albums_DiscographyID";
-	
-	$result = mysql_query($sql);
-	if ($result == FALSE){
-		die (mysql_error());
-	}
 
-	echo "<table class=\"table table-bordered\">
-		<tr><th>Song</th><th>Act</th><th>Album</th></tr>";
+        $result = mysql_query($sql);
+        if ($result == FALSE){
+            die (mysql_error());
+        }
 
-	while($row = mysql_fetch_assoc($result)){
-		echo "<tr><td>" . $row['SongName'] . "</td><td>" . $row['ActName'] . "</td><td>" . $row['AlbumName'] . "</td></tr>";
-	}
-	echo "</table>";
+        echo "<table class=\"table table-bordered\">
+            <tr><th>Song</th><th>Act</th><th>Album</th></tr>";
+
+        while($row = mysql_fetch_assoc($result)){
+            echo "<tr><td>" . $row['SongName'] . "</td><td>" . $row['ActName'] . "</td><td>" . $row['AlbumName'] . "</td></tr>";
+        }
+        echo "</table>";
 
         return;
     } elseif(!$hasArtist && !$hasAct && !$hasAlbum && !$hasSong && !$hasYear && !$hasLast && !$hasFirst && !$hasGenre && !$hasCYear){
@@ -302,10 +302,10 @@ elseif ($selected_radio == "artist") {
             FROM Song, Act, Albums, Discography, Artist
             WHERE Song.AlbumName = Albums.AlbumName
             AND Act.Act_DiscographyID = Albums.Albums_DiscographyID
-		AND Artist.Artist_ActName = Act.ActName";		
-	/*
+            AND Artist.Artist_ActName = Act.ActName";		
+    /*
 
-	
+
         $sql = "SELECT Act.ActName, Albums.AlbumName, Song.SongName, Albums.Year 
             FROM Act, Albums, Song 
             WHERE Act.Act_DiscographyID = Albums.Albums_DiscographyID
@@ -313,38 +313,38 @@ elseif ($selected_radio == "artist") {
 
 
 
-	*/
+     */
 
 
-	$sql2 = "SELECT Employee.LastName FROM Employee";
-	
-	$result = mysql_query($sql);
-	$result2 = mysql_query($sql2);
+        $sql2 = "SELECT Employee.LastName FROM Employee";
 
-	if ($result == FALSE){
-		die (mysql_error());
-	}
+        $result = mysql_query($sql);
+        $result2 = mysql_query($sql2);
 
-	if ($result2 == FALSE){
-		die (mysql_error());
-	}
+        if ($result == FALSE){
+            die (mysql_error());
+        }
 
-	echo "<table class =\"table table-bordered\">
-		<tr><th>Song</th><th>Artist</th><th>Act</th><th>Album</th><th>Contract Years</th></tr>";
-	while($row = mysql_fetch_assoc($result)){
-		
-		echo "<tr><td>" . $row['SongName'] . "</td><td>" . $row['ArtistName'] . "</td><td>" . $row['ActName'] . "</td><td>" . $row['AlbumName'] . "</td><td>" . $row['ContractYears'] . "</td></tr>";	
+        if ($result2 == FALSE){
+            die (mysql_error());
+        }
 
-	}	
-	echo "</table>";
+        echo "<table class =\"table table-bordered\">
+            <tr><th>Song</th><th>Artist</th><th>Act</th><th>Album</th><th>Contract Years</th></tr>";
+        while($row = mysql_fetch_assoc($result)){
 
-	echo "<table class=\"table table-bordered\">
-		<tr><th>Last Name</th></tr>";
-	while ($row2 = mysql_fetch_assoc($result2)){
-		echo "<tr><td>" . $row2['LastName'] . "</td></tr>";
-	}
-	
-	echo "</table>";	
+            echo "<tr><td>" . $row['SongName'] . "</td><td>" . $row['ArtistName'] . "</td><td>" . $row['ActName'] . "</td><td>" . $row['AlbumName'] . "</td><td>" . $row['ContractYears'] . "</td></tr>";	
+
+        }	
+        echo "</table>";
+
+        echo "<table class=\"table table-bordered\">
+            <tr><th>Last Name</th></tr>";
+        while ($row2 = mysql_fetch_assoc($result2)){
+            echo "<tr><td>" . $row2['LastName'] . "</td></tr>";
+        }
+
+        echo "</table>";	
 
         return;
     }
@@ -485,62 +485,30 @@ elseif ($selected_radio == "artist") {
         && empty($first_name)
         && empty($contract_years)) {
 
-            $sql = "SELECT DISTINCT Artist.ArtistName, Act.ActName, Albums.AlbumName, 
-                Song.SongName, Albums.Year, Employee.LastName, 
-                Employee.FirstName, Act.Genre, Artist.ContractYears 
-                FROM Act, Albums, Artist, Discography, Employee, Executives, Producers, Song
-                WHERE (Employee.ExecutiveID = Executives.ExecutiveID
-                OR Employee.ProducerID = Producers.ProducerID
-                OR Employee.ArtistID = Artist.ArtistID
-                AND (Employee.LastName <> 'Tiffith'
-                AND Employee.LastName <> 'West'))
-                AND Artist.Artist_ActName = Act.ActName
-                AND Discography.DiscographyID = Act.Act_DiscographyID
-                AND Discography.DiscographyID = Albums.Albums_DiscographyID
-                AND Discography.DiscographyID = Song.Song_DiscographyID
-                AND Albums.AlbumName = Song.AlbumName";
 
+
+            $sql = "SELECT ArtistName, ActName, Genre, ContractYears
+                FROM Artist, Act
+                WHERE Artist.Artist_ActName = Act.ActName";
             $result = mysql_query($sql);
-
             if($result == false){
                 die(mysql_error());
             }
-
+            echo "<h2> Information about Artists </h2>";
             echo "<table class=\"table table-bordered\">
                 <tr> <th>Artist Name</th>
                 <th> Act Name </th>
-                <th> Album Name </th>
-                <th> Song Name </th>
-                <th> Year </th>
-                <th> Last Name </th>
-                <th> First Name </th>
                 <th> Genre </th>
                 <th> Contract Yrs </th>
                 </tr>";
             while ($row = mysql_fetch_assoc($result)){
-
-                echo "<tr><td>" . $row['ArtistName'] . "</td><td>" .
-                    $row['ActName'] . "</td><td>" . $row['AlbumName'] .
-                    "</td> <td>" . $row['SongName'] . "</td> <td>" .
-                    $row['Year'] . "</td><td>" . $row['LastName'] . "</td><td>" .
-                    $row['FirstName'] . "</td><td>" . $row['Genre'] . "</td><td> " .
-                    $row['ContractYears'] . "</td><tr>";
-               /* echo $row['artistname'];
-                echo $row['actname'];
-                echo $row['albumname'];
-                echo $row['song_name'];
-                echo $row['year'];
-                echo $row['lastname'];
-                echo $row['firstname'];
-                echo $row['genre'];
-                echo $row['contractyears'];
-                */
+                echo "<tr><td>" .$row['ArtistName'] . "</td><td>" . $row['ActName'] . "</td><td>" . $row['Genre'] . 
+                    "</td><td>" . $row['ContractYears'] . "</td></tr>";
             }
             echo "</table>";
 
-
             $sql = "SELECT ProducerName, ContractYears FROM Producers";
-
+            
             $result = mysql_query($sql);
 
             if ($result == FALSE) {
@@ -551,14 +519,58 @@ elseif ($selected_radio == "artist") {
             echo "<table class=\"table table-bordered\">
                 <tr><th> Producer</th><th>Contract Yrs</th></tr>";
             while ($row = mysql_fetch_assoc($result)) {
-                
+
                 echo "<tr><td>" . $row['ProducerName'] . "</td><td>" . $row['ContractYears'] . "</td></tr>";
             }            
             echo "</table>";
-       
-            
 
-       
+
+            $sql = "SELECT ActName, SongName, Albums.AlbumName, Year
+                FROM Act, Song, Albums
+                WHERE Song.AlbumName = Albums.AlbumName
+                AND Albums.Albums_DiscographyID = Act.Act_DiscographyID";
+
+            $result = mysql_query($sql);
+
+            if ($result == false) {
+                die(mysql_error());
+            }
+
+            echo "<h2> Information about songs </h2>";
+
+            echo "<table class=\"table table-bordered\">
+                <tr><th>Act</th><th>Song</th>
+                <th>Album</th><th>Year</th></tr>"; 
+
+            while ($row = mysql_fetch_assoc($result)) {
+                echo "<tr><td>" . $row['ActName'] . "</td><td>" . $row['SongName'] . "</td><td>" . 
+                    $row['AlbumName'] . "</td><td>" . $row['Year'] . "</td></tr>";
+            }
+            echo "</table>";
+            
+            $sql = "SELECT LastName, FirstName, Phone, SSN 
+                FROM Employee";
+
+            
+            $result = mysql_query($sql);
+
+            if ($result == false) {
+                die(mysql_error());
+            }
+
+            echo "<h2> Information about Employees </h2>";
+
+            echo "<table class=\"table table-bordered\">
+                <tr><th>Last Name</th><th>First Name</th>
+                <th>Phone</th><th>SSN</th></tr>";
+
+            while ($row = mysql_fetch_assoc($result)) {
+
+                echo "<tr><td>" . $row['LastName'] . "</td><td>" . $row['FirstName'] .
+                    "</td><td>" . $row['Phone'] . "</td><td>" . $row['SSN'] . "</td><tr>";
+            } 
+            echo "</table>";
+            
             return;
         } 
 
