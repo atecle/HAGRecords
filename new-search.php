@@ -295,14 +295,55 @@ elseif ($selected_radio == "artist") {
 
         return;
     } elseif(!$hasArtist && !$hasAct && !$hasAlbum && !$hasSong && !$hasYear && !$hasLast && !$hasFirst && !$hasGenre && !$hasCYear){
-        echo "searched all";
-        $sql = "SELECT DISTINCT SongName, ActName, Albums.AlbumName, Artist.ArtistName, Genre 
+        $sql = "SELECT DISTINCT SongName, ActName, Albums.AlbumName, Artist.ArtistName, ContractYears
             FROM Song, Act, Albums, Discography, Artist
             WHERE Song.AlbumName = Albums.AlbumName
             AND Act.Act_DiscographyID = Albums.Albums_DiscographyID
         AND Artist.Artist_ActName = Act.ActName";       
+    /*
+
+    
+        $sql = "SELECT Act.ActName, Albums.AlbumName, Song.SongName, Albums.Year 
+            FROM Act, Albums, Song 
+            WHERE Act.Act_DiscographyID = Albums.Albums_DiscographyID
+            AND Albums.Albums_DiscographyID = Song.Song_DiscographyID";                        
 
 
+
+    */
+
+    $sql2 = "SELECT Employee.LastName FROM Employee";
+    
+    $result = mysql_query($sql);
+    $result2 = mysql_query($sql2);
+
+    if ($result == FALSE){
+        die (mysql_error());
+    }
+
+    if ($result2 == FALSE){
+        die (mysql_error());
+    }
+
+    echo "<table class =\"table table-bordered\">
+        <tr><th>Song</th><th>Artist</th><th>Act</th><th>Album</th><th>Contract Years</th></tr>";
+    while($row = mysql_fetch_assoc($result)){
+        
+        echo "<tr><td>" . $row['SongName'] . "</td><td>" . $row['ArtistName'] . "</td><td>" . $row['ActName'] . "</td><td>" . $row['AlbumName'] . "</td><td>" . $row['ContractYears'] . "</td></tr>";   
+
+    }   
+    echo "</table>";
+
+    echo "<table class=\"table table-bordered\">
+        <tr><th>Last Name</th></tr>";
+    while ($row2 = mysql_fetch_assoc($result2)){
+        echo "<tr><td>" . $row2['LastName'] . "</td></tr>";
+    }
+    
+    echo "</table>";    
+
+        return;
+    }
  echo "<h2>Query not supported. </h2>";
  return;
 
