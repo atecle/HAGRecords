@@ -98,7 +98,11 @@ if ($selected_radio ==  "generaluser") {
     if (!empty($artist_name) 
         && empty($album_name)
         && empty($song_name)
-        && empty($year))
+        && empty($year)
+        && empty($first_name)
+        && empty($last_name)
+        && empty($genre)
+        && empty($contract_years))
     {
 
         $sql = "SELECT ArtistName FROM Artist WHERE ArtistName=\"$artist_name\"";   
@@ -118,7 +122,7 @@ if ($selected_radio ==  "generaluser") {
         return;
     }
 
-    else if (!empty($album_name) 
+    elseif (!empty($album_name) 
         && empty($artist_name)
         && empty($song_name)
         && empty($year))
@@ -139,7 +143,7 @@ if ($selected_radio ==  "generaluser") {
         echo "</table>";
         return;        
     }
-    else if (!empty($song_name)
+    elseif (!empty($song_name)
         && empty($artist_name)
         && empty($album_name)
         && empty($year))
@@ -190,7 +194,10 @@ if ($selected_radio ==  "generaluser") {
         echo "</table>";
         return;
     }
-
+    else {
+        echo "<h2> Query not supported. </h2>";
+        return;
+ }
 }
 elseif ($selected_radio == "artist") {
 	
