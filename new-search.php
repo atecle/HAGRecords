@@ -301,17 +301,6 @@ elseif ($selected_radio == "artist") {
             WHERE Song.AlbumName = Albums.AlbumName
             AND Act.Act_DiscographyID = Albums.Albums_DiscographyID
         AND Artist.Artist_ActName = Act.ActName";       
-    /*
-
-    
-        $sql = "SELECT Act.ActName, Albums.AlbumName, Song.SongName, Albums.Year 
-            FROM Act, Albums, Song 
-            WHERE Act.Act_DiscographyID = Albums.Albums_DiscographyID
-            AND Albums.Albums_DiscographyID = Song.Song_DiscographyID";                        
-
-
-
-    */
 
 
  echo "<h2>Query not supported. </h2>";
