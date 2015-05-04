@@ -302,7 +302,7 @@ elseif ($selected_radio == "artist") {
 
         return;
     } elseif(!$hasArtist && !$hasAct && !$hasAlbum && !$hasSong && !$hasYear && !$hasLast && !$hasFirst && !$hasGenre && !$hasCYear){
-        $sql = "SELECT DISTINCT SongName, ActName, Albums.AlbumName, Artist.ArtistName, ContractYears
+        $sql = "SELECT DISTINCT SongName, ActName, Albums.AlbumName, Artist.ArtistName
             FROM Song, Act, Albums, Discography, Artist
             WHERE Song.AlbumName = Albums.AlbumName
             AND Act.Act_DiscographyID = Albums.Albums_DiscographyID
@@ -319,7 +319,7 @@ elseif ($selected_radio == "artist") {
 
     */
 
-    $sql2 = "SELECT Employee.LastName FROM Employee";
+    $sql2 = "SELECT Employee.LastName, Artist.ArtistName FROM Employee, Artist";
     
     $result = mysql_query($sql);
     $result2 = mysql_query($sql2);
